@@ -1,16 +1,13 @@
 #include"glcm.h"
 
-struct matrix3D* fast_glcm(struct Image2D* img, int vmin, int vmax, int nbit, int kernel_size) {
+struct matrix3D_float* fast_glcm(struct Image2D* img, int vmin, int vmax, int nbit, int kernel_size) {
     int mi = vmin, ma = vmax;
     int ks = kernel_size;
     int h = img->matrix->H;
     int w = img->matrix->W;
 
     // digitize
-    int* bins = malloc((nbit + 1) * sizeof(int));
-    for (int i = 0; i <= nbit; i++) {
-        bins[i] = mi + i * (ma - mi) / nbit;
-    }
+    int* bins = linspace(mi,ma+1,nbit+1);
     int** gl1 = malloc(h * sizeof(int*));
     for (int i = 0; i < h; i++) {
         gl1[i] = malloc(w * sizeof(int));
@@ -23,7 +20,7 @@ struct matrix3D* fast_glcm(struct Image2D* img, int vmin, int vmax, int nbit, in
     }
 
     // make glcm
-    struct matrix3D* glcm = zeros3D(nbit,nbit,h*w);
+    struct matrix3D_float* glcm = zeros3D(nbit,nbit,h*w);
     for (int i = 0; i < nbit; i++) {
         for (int j = 0; j < nbit; j++) {
             for (int m = 0; m < h; m++) {
@@ -70,7 +67,7 @@ struct matrix3D* fast_glcm(struct Image2D* img, int vmin, int vmax, int nbit, in
 
 
 struct matrix2D_float* fast_glcm_mean(struct Image2D* img, int vmin, int vmax, int nbit, int kernel_size) {
-    struct matrix3D* glcm = fast_glcm(img, vmin, vmax, nbit, kernel_size);
+    struct matrix3D_float* glcm = fast_glcm(img, vmin, vmax, nbit, kernel_size);
     
     int h = img->matrix->H;
     int w = img->matrix->W;

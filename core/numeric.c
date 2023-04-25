@@ -1,6 +1,6 @@
 #include"numeric.h"
 
-void filter2D(struct Image2D* img, int h, int w, int** kernel){
+void filter2D(float** img, int h, int w, int** kernel){
     int ks = sizeof(kernel) / sizeof(kernel[0]);
     int half_ks = ks / 2;
     
@@ -12,7 +12,7 @@ void filter2D(struct Image2D* img, int h, int w, int** kernel){
     // padding
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
-            temp[i + half_ks][j + half_ks] = img->matrix->matrix[i][j]; 
+            temp[i + half_ks][j + half_ks] = img-[i][j]; 
         }
     }
     
@@ -25,7 +25,7 @@ void filter2D(struct Image2D* img, int h, int w, int** kernel){
                     sum += kernel[m][n] * temp[i - half_ks + m][j - half_ks + n];
                 }
             }
-            img->matrix->matrix[i - half_ks][j - half_ks] = sum / ks / ks;
+            img[i - half_ks][j - half_ks] = sum / ks / ks;
         }
     }
     
@@ -33,4 +33,12 @@ void filter2D(struct Image2D* img, int h, int w, int** kernel){
         free(temp[i]);
     }
     free(temp);
+}
+
+int* linspace(int start,int end,int num){
+    int* bins = malloc((num + 1) * sizeof(int));
+    for (int i = 0; i <= num; i++) {
+        bins[i] = start + i * (end - start) / num;
+    }
+    return bins;
 }
