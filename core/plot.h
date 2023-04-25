@@ -1,5 +1,4 @@
 #include"image.h"
-
 #ifndef PLOT
 #define PLOT
 

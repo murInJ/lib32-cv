@@ -1,3 +1,5 @@
+#include<stdlib.h>
+
 #ifndef MATRIX
 #define MATRIX 
 

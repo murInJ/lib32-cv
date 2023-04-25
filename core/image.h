@@ -1,5 +1,4 @@
 #include "matrix.h"
-
 #ifndef IMAGE
 #define IMAGE
 
